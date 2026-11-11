@@ -129,26 +129,6 @@ medicalFile.addEventListener('change', async (event) => {
     return;
   }
 
-  if (file.size > 10 * 1024 * 1024) {
-    alert('O documento ultrapassa o limite de 10 MB.');
-    medicalFile.value = '';
-    return;
-  }
-
-  fileName.textContent = 'Documento selecionado: ' + file.name;
-
-  results.innerHTML = `
-    <div class="empty-state">
-      <span>✓</span>
-      <p>Documento recebido com sucesso!</p>
-      <p>Aguardando processamento.</p>
-    </div>
-  `;
-
-  console.log('Documento selecionado:', file.name);
-});
-
-
 // Controle do acesso ao MEDSCRIPT
 let currentUser = null;
 
