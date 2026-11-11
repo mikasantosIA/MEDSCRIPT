@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102B3A">
+  <meta name="description" content="MEDSCRIPT - Plataforma inteligente para leitura de pedidos médicos.">
+  <title>MEDSCRIPT | Leitura Médica Inteligente</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon">✚</div>
+        <div>
+          <h1>MEDSCRIPT</h1>
+          <span>INTELLIGENT MEDICAL READING</span>
+        </div>
+      </div>
+
+      <div class="user-area">
+        <span class="status">Sistema online</span>
+        <button id="loginButton" class="login-button">
+          Entrar
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="welcome">
+        <span class="eyebrow">TECNOLOGIA EM SAÚDE</span>
+        <h2>Leitura médica inteligente.</h2>
+        <p>
+          Transforme pedidos médicos manuscritos ou digitais
+          em listas de exames organizadas.
+        </p>
+      </section>
+
+      <section class="upload-section">
+        <div class="upload-icon">⇧</div>
+        <h3>Envie seu pedido médico</h3>
+        <p>Selecione uma fotografia ou documento PDF.</p>
+
+        <input
+          type="file"
+          id="medicalFile"
+          accept="image/*,.pdf"
+          hidden
+        >
+
+        <button id="uploadButton" class="primary-button">
+          Selecionar documento
+        </button>
+
+        <div id="fileName" class="file-name">
+          Nenhum documento selecionado
+        </div>
+      </section>
+
+      <section class="result-section">
+        <div>
+          <h3>Resultado da leitura</h3>
+          <p>Os exames identificados aparecerão aqui.</p>
+        </div>
+
+        <div id="results">
+          <div class="empty-state">
+            <span>▤</span>
+            <p>Aguardando envio de documento.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        MEDSCRIPT © 2026 — Leitura médica inteligente.
+      </footer>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
