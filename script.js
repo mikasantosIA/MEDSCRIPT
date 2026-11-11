@@ -9,34 +9,144 @@ const supabaseClient = window.supabase.createClient(
 
 console.log('MEDSCRIPT conectado ao Supabase!');
 
-supabaseClient.auth.getSession()
-  .then(({ data, error }) => {
-    if (error) {
-      console.error('Erro na conexão:', error.message);
-      return;
-    }
+// Usuário autenticado
+let currentUser = null;
 
-    console.log('Conexão com Supabase funcionando!');
-    console.log(
-      'Usuário conectado:',
-      data.session?.user?.email || 'Nenhum usuário conectado'
-    );
-  });
-
+// Elementos da página
 const medicalFile = document.getElementById('medicalFile');
 const uploadButton = document.getElementById('uploadButton');
 const fileName = document.getElementById('fileName');
 const results = document.getElementById('results');
+
+const authEmail = document.getElementById('authEmail');
+const authPassword = document.getElementById('authPassword');
+const authMessage = document.getElementById('authMessage');
+
+// Atualizar tela conforme o login
+function updateAuthUI(user) {
+  currentUser = user;
+
+  const authSection = document.querySelector('.auth-section');
+  const uploadSection = document.querySelector('.upload-section');
+  const resultSection = document.querySelector('.result-section');
+  const loginButton = document.getElementById('loginButton');
+
+  if (authSection) {
+    authSection.style.display = user ? 'none' : 'flex';
+  }
+
+  if (uploadSection) {
+    uploadSection.style.display = user ? 'block' : 'none';
+  }
+
+  if (resultSection) {
+    resultSection.style.display = user ? 'block' : 'none';
+  }
+
+  if (loginButton) {
+    loginButton.textContent = user ? 'Sair' : 'Entrar';
+  }
+}
+
+// Monitorar autenticação
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  updateAuthUI(session?.user || null);
+});
+
+// Botão Entrar / Sair do cabeçalho
+document.getElementById('loginButton').addEventListener('click', async () => {
+  if (currentUser) {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+      alert('Erro ao sair: ' + error.message);
+    }
+
+    return;
+  }
+
+  const authSection = document.querySelector('.auth-section');
+
+  if (authSection) {
+    authSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+
+    authEmail.focus();
+  }
+});
+
+// Criar conta
+document.getElementById('signUpButton').addEventListener('click', async () => {
+  const email = authEmail.value.trim();
+  const password = authPassword.value;
+
+  if (!email || !password) {
+    authMessage.textContent = 'Preencha o e-mail e a senha.';
+    return;
+  }
+
+  if (password.length < 8) {
+    authMessage.textContent = 'A senha precisa ter pelo menos 8 caracteres.';
+    return;
+  }
+
+  authMessage.textContent = 'Criando sua conta...';
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: 'https://medscript.pages.dev/'
+    }
+  });
+
+  if (error) {
+    authMessage.textContent = 'Erro: ' + error.message;
+    return;
+  }
+
+  authMessage.textContent = data.session
+    ? 'Conta criada com sucesso!'
+    : 'Conta criada! Confira seu e-mail para confirmar o cadastro.';
+});
+
+// Entrar na conta
+document.getElementById('signInButton').addEventListener('click', async () => {
+  const email = authEmail.value.trim();
+  const password = authPassword.value;
+
+  if (!email || !password) {
+    authMessage.textContent = 'Preencha o e-mail e a senha.';
+    return;
+  }
+
+  authMessage.textContent = 'Verificando acesso...';
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    authMessage.textContent = 'Erro ao entrar: ' + error.message;
+    return;
+  }
+
+  authMessage.textContent = 'Bem-vindo ao MEDSCRIPT!';
+  console.log('Usuário autenticado:', data.user.email);
+});
 
 // Abrir seletor de documentos
 uploadButton.addEventListener('click', () => {
   medicalFile.click();
 });
 
-// Selecionar documento
-
+// Enviar documento para o Supabase
 medicalFile.addEventListener('change', async (event) => {
   const file = event.target.files[0];
+
   if (!file) return;
 
   if (!currentUser) {
@@ -112,131 +222,4 @@ medicalFile.addEventListener('change', async (event) => {
   medicalFile.value = '';
 });
 
-  const file = event.target.files[0];
-
-  if (!file) return;
-
-  const allowedTypes = [
-    'image/jpeg',
-    'image/png',
-    'image/webp',
-    'application/pdf'
-  ];
-
-  if (!allowedTypes.includes(file.type)) {
-    alert('Formato não permitido. Envie uma imagem ou PDF.');
-    medicalFile.value = '';
-    return;
-  }
-
-// Controle do acesso ao MEDSCRIPT
-let currentUser = null;
-
-function updateAuthUI(user) {
-  currentUser = user;
-
-  const authSection = document.querySelector('.auth-section');
-  const uploadSection = document.querySelector('.upload-section');
-  const resultSection = document.querySelector('.result-section');
-  const loginButton = document.getElementById('loginButton');
-
-  authSection.style.display = user ? 'none' : 'flex';
-  uploadSection.style.display = user ? 'block' : 'none';
-  resultSection.style.display = user ? 'block' : 'none';
-
-  loginButton.textContent = user ? 'Sair' : 'Entrar';
-}
-
-supabaseClient.auth.onAuthStateChange((event, session) => {
-  updateAuthUI(session?.user || null);
-});
-
-
-document.getElementById('loginButton').addEventListener('click', async () => {
-  if (currentUser) {
-    const { error } = await supabaseClient.auth.signOut();
-
-    if (error) {
-      alert('Erro ao sair: ' + error.message);
-    }
-
-    return;
-  }
-
-    const authSection = document.querySelector('.auth-section');
-
-  if (authSection) {
-    authSection.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
-
-    document.getElementById('authEmail').focus();
-  }
-});
-// Elementos de autenticação
-const authEmail = document.getElementById('authEmail');
-const authPassword = document.getElementById('authPassword');
-const authMessage = document.getElementById('authMessage');
-
-// Criar conta
-document.getElementById('signUpButton').addEventListener('click', async () => {
-  const email = authEmail.value.trim();
-  const password = authPassword.value;
-
-  if (!email || !password) {
-    authMessage.textContent = 'Preencha o e-mail e a senha.';
-    return;
-  }
-
-  if (password.length < 8) {
-    authMessage.textContent = 'A senha precisa ter pelo menos 8 caracteres.';
-    return;
-  }
-
-  authMessage.textContent = 'Criando sua conta...';
-
-  const { data, error } = await supabaseClient.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: 'https://medscript.pages.dev/'
-    }
-  });
-
-  if (error) {
-    authMessage.textContent = 'Erro: ' + error.message;
-    return;
-  }
-
-  authMessage.textContent = data.session
-    ? 'Conta criada com sucesso!'
-    : 'Conta criada! Confira seu e-mail para confirmar o cadastro.';
-});
-
-// Entrar na conta
-document.getElementById('signInButton').addEventListener('click', async () => {
-  const email = authEmail.value.trim();
-  const password = authPassword.value;
-
-  if (!email || !password) {
-    authMessage.textContent = 'Preencha o e-mail e a senha.';
-    return;
-  }
-
-  authMessage.textContent = 'Verificando acesso...';
-
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if (error) {
-    authMessage.textContent = 'Erro ao entrar: ' + error.message;
-    return;
-  }
-
-  authMessage.textContent = 'Bem-vindo ao MEDSCRIPT!';
-  console.log('Usuário autenticado:', data.user.email);
-});
-
+console.log('MEDSCRIPT: configuração carregada.');
