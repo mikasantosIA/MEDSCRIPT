@@ -106,13 +106,7 @@ document.getElementById('loginButton').addEventListener('click', async () => {
     return;
   }
 
-  document.querySelector('.auth-section').scrollIntoView({
-    behavior: 'smooth',
-    block: 'center'
-  });
-});
-
-  const authSection = document.querySelector('.auth-section');
+    const authSection = document.querySelector('.auth-section');
 
   if (authSection) {
     authSection.scrollIntoView({
@@ -123,9 +117,6 @@ document.getElementById('loginButton').addEventListener('click', async () => {
     document.getElementById('authEmail').focus();
   }
 });
-
-console.log('MEDSCRIPT: configuração inicial carregada.');
-
 // Elementos de autenticação
 const authEmail = document.getElementById('authEmail');
 const authPassword = document.getElementById('authPassword');
