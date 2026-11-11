@@ -34,7 +34,84 @@ uploadButton.addEventListener('click', () => {
 });
 
 // Selecionar documento
-medicalFile.addEventListener('change', (event) => {
+
+medicalFile.addEventListener('change', async (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!currentUser) {
+    alert('Faça login para enviar documentos.');
+    return;
+  }
+
+  const allowedTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/webp',
+    'application/pdf'
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    alert('Formato não permitido. Envie uma imagem ou PDF.');
+    medicalFile.value = '';
+    return;
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    alert('O documento ultrapassa o limite de 10 MB.');
+    medicalFile.value = '';
+    return;
+  }
+
+  fileName.textContent = 'Enviando documento...';
+
+  const storagePath =
+    currentUser.id + '/' + Date.now() + '_' + file.name;
+
+  const { error: uploadError } = await supabaseClient
+    .storage
+    .from('medical-orders')
+    .upload(storagePath, file);
+
+  if (uploadError) {
+    fileName.textContent = 'Erro ao enviar: ' + uploadError.message;
+    return;
+  }
+
+  const { error: databaseError } = await supabaseClient
+    .from('medical_documents')
+    .insert({
+      user_id: currentUser.id,
+      original_filename: file.name,
+      storage_path: storagePath,
+      mime_type: file.type,
+      file_size: file.size,
+      status: 'pending'
+    });
+
+  if (databaseError) {
+    await supabaseClient
+      .storage
+      .from('medical-orders')
+      .remove([storagePath]);
+
+    fileName.textContent = 'Erro ao registrar: ' + databaseError.message;
+    return;
+  }
+
+  fileName.textContent = 'Documento enviado: ' + file.name;
+
+  results.innerHTML = `
+    <div class="empty-state">
+      <span>✓</span>
+      <p>Documento salvo com sucesso!</p>
+      <p>Aguardando processamento.</p>
+    </div>
+  `;
+
+  medicalFile.value = '';
+});
+
   const file = event.target.files[0];
 
   if (!file) return;
