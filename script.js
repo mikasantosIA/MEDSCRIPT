@@ -1,6 +1,22 @@
 
-const SUPABASE_URL = 'https://woktqlmthxlssjwedkfb.supabase.co';
-const SUPABASE_KEY = 'COLE_AQUI_SUA_PUBLISHABLE_KEY';
+const SUPABASE_URL = 'https://woktqlmthxlssjwedkfb.supabase.co;
+const SUPABASE_KEY = 'sb_publishable_s0G9o6wAAAItIt8zeEpx0g_RdehdUdm';
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+console.log('MEDSCRIPT conectado ao Supabase!');
+supabaseClient.auth.getSession()
+  .then(({ data, error }) => {
+    if (error) {
+      console.error('Erro na conexão:', error.message);
+      return;
+    }
+
+    console.log('Conexão com Supabase funcionando!');
+    console.log('Usuário conectado:', data.session?.user?.email || 'Nenhum usuário conectado');
+  });
 
 const medicalFile = document.getElementById('medicalFile');
 const uploadButton = document.getElementById('uploadButton');
