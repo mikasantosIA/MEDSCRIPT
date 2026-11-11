@@ -71,9 +71,18 @@ medicalFile.addEventListener('change', (event) => {
   console.log('Documento selecionado:', file.name);
 });
 
-// Login provisório
+// Botão Entrar do cabeçalho
 document.getElementById('loginButton').addEventListener('click', () => {
-  alert('O módulo de autenticação será implementado na próxima etapa.');
+  const authSection = document.querySelector('.auth-section');
+
+  if (authSection) {
+    authSection.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
+
+    document.getElementById('authEmail').focus();
+  }
 });
 
 console.log('MEDSCRIPT: configuração inicial carregada.');
