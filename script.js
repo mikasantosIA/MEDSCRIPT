@@ -1,4 +1,7 @@
 
+const SUPABASE_URL = 'https://woktqlmthxlssjwedkfb.supabase.co';
+const SUPABASE_KEY = 'COLE_AQUI_SUA_PUBLISHABLE_KEY';
+
 const medicalFile = document.getElementById('medicalFile');
 const uploadButton = document.getElementById('uploadButton');
 const fileName = document.getElementById('fileName');
@@ -9,7 +12,7 @@ uploadButton.addEventListener('click', () => {
   medicalFile.click();
 });
 
-// Quando selecionar um documento
+// Selecionar documento
 medicalFile.addEventListener('change', (event) => {
   const file = event.target.files[0];
 
@@ -28,7 +31,6 @@ medicalFile.addEventListener('change', (event) => {
     return;
   }
 
-  // Limite inicial de 10 MB
   if (file.size > 10 * 1024 * 1024) {
     alert('O documento ultrapassa o limite de 10 MB.');
     medicalFile.value = '';
@@ -41,17 +43,17 @@ medicalFile.addEventListener('change', (event) => {
     <div class="empty-state">
       <span>✓</span>
       <p>Documento recebido com sucesso!</p>
-      <p>O sistema está preparado para a próxima etapa de processamento.</p>
+      <p>Aguardando processamento.</p>
     </div>
   `;
 
   console.log('Documento selecionado:', file.name);
-  console.log('Tipo:', file.type);
-  console.log('Tamanho:', file.size);
 });
 
-// Botão de login provisório
+// Login provisório
 document.getElementById('loginButton').addEventListener('click', () => {
   alert('O módulo de autenticação será implementado na próxima etapa.');
 });
+
+console.log('MEDSCRIPT: configuração inicial carregada.');
   
