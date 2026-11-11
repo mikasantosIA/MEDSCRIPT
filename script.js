@@ -71,8 +71,47 @@ medicalFile.addEventListener('change', (event) => {
   console.log('Documento selecionado:', file.name);
 });
 
-// Botão Entrar do cabeçalho
-document.getElementById('loginButton').addEventListener('click', () => {
+
+// Controle do acesso ao MEDSCRIPT
+let currentUser = null;
+
+function updateAuthUI(user) {
+  currentUser = user;
+
+  const authSection = document.querySelector('.auth-section');
+  const uploadSection = document.querySelector('.upload-section');
+  const resultSection = document.querySelector('.result-section');
+  const loginButton = document.getElementById('loginButton');
+
+  authSection.style.display = user ? 'none' : 'flex';
+  uploadSection.style.display = user ? 'block' : 'none';
+  resultSection.style.display = user ? 'block' : 'none';
+
+  loginButton.textContent = user ? 'Sair' : 'Entrar';
+}
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  updateAuthUI(session?.user || null);
+});
+
+
+document.getElementById('loginButton').addEventListener('click', async () => {
+  if (currentUser) {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+      alert('Erro ao sair: ' + error.message);
+    }
+
+    return;
+  }
+
+  document.querySelector('.auth-section').scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  });
+});
+
   const authSection = document.querySelector('.auth-section');
 
   if (authSection) {
