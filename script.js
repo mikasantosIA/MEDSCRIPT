@@ -51,6 +51,7 @@ function updateAuthUI(user) {
 // Monitorar autenticação
 supabaseClient.auth.onAuthStateChange((event, session) => {
   updateAuthUI(session?.user || null);
+  loadMedicalDocuments();
 });
 
 // Botão Entrar / Sair do cabeçalho
@@ -223,3 +224,72 @@ medicalFile.addEventListener('change', async (event) => {
 });
 
 console.log('MEDSCRIPT: configuração carregada.');
+
+// Carregar histórico de documentos
+async function loadMedicalDocuments() {
+  const documentsList = document.getElementById('documentsList');
+
+  if (!currentUser) {
+    documentsList.innerHTML = '';
+    return;
+  }
+
+  documentsList.innerHTML = '<p>Carregando documentos...</p>';
+
+  const { data, error } = await supabaseClient
+    .from('medical_documents')
+    .select('*')
+    .eq('user_id', currentUser.id)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    documentsList.innerHTML =
+      '<p>Erro ao carregar documentos: ' + error.message + '</p>';
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    documentsList.innerHTML =
+      '<p>Nenhum documento enviado ainda.</p>';
+    return;
+  }
+
+  documentsList.innerHTML = '';
+
+  data.forEach((doc) => {
+    const item = document.createElement('div');
+    item.className = 'document-item';
+
+    const date = new Date(doc.created_at).toLocaleString('pt-BR');
+
+    item.innerHTML = `
+      <div>
+        <strong></strong>
+        <p>Enviado em: ${date}</p>
+        <small>Status: ${doc.status}</small>
+      </div>
+      <button type="button" class="open-document-button">
+        Abrir documento
+      </button>
+    `;
+
+    item.querySelector('strong').textContent = doc.original_filename;
+
+    item.querySelector('button').addEventListener('click', async () => {
+      const { data: fileData, error: fileError } =
+        await supabaseClient.storage
+          .from('medical-orders')
+          .createSignedUrl(doc.storage_path, 60);
+
+      if (fileError) {
+        alert('Erro ao abrir documento: ' + fileError.message);
+        return;
+      }
+
+      window.open(fileData.signedUrl, '_blank');
+    });
+
+    documentsList.appendChild(item);
+  });
+}
+
