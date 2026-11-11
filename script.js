@@ -1,12 +1,14 @@
 
-const SUPABASE_URL = 'https://woktqlmthxlssjwedkfb.supabase.co;
+const SUPABASE_URL = 'https://woktqlmthxlssjwedkfb.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_s0G9o6wAAAItIt8zeEpx0g_RdehdUdm';
+
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
 console.log('MEDSCRIPT conectado ao Supabase!');
+
 supabaseClient.auth.getSession()
   .then(({ data, error }) => {
     if (error) {
@@ -15,7 +17,10 @@ supabaseClient.auth.getSession()
     }
 
     console.log('Conexão com Supabase funcionando!');
-    console.log('Usuário conectado:', data.session?.user?.email || 'Nenhum usuário conectado');
+    console.log(
+      'Usuário conectado:',
+      data.session?.user?.email || 'Nenhum usuário conectado'
+    );
   });
 
 const medicalFile = document.getElementById('medicalFile');
@@ -72,4 +77,3 @@ document.getElementById('loginButton').addEventListener('click', () => {
 });
 
 console.log('MEDSCRIPT: configuração inicial carregada.');
-  
