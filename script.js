@@ -51,7 +51,10 @@ function updateAuthUI(user) {
 // Monitorar autenticação
 supabaseClient.auth.onAuthStateChange((event, session) => {
   updateAuthUI(session?.user || null);
-  loadMedicalDocuments();
+
+  setTimeout(() => {
+    loadMedicalDocuments();
+  }, 0);
 });
 
 // Botão Entrar / Sair do cabeçalho
