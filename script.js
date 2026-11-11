@@ -77,3 +77,70 @@ document.getElementById('loginButton').addEventListener('click', () => {
 });
 
 console.log('MEDSCRIPT: configuração inicial carregada.');
+
+// Elementos de autenticação
+const authEmail = document.getElementById('authEmail');
+const authPassword = document.getElementById('authPassword');
+const authMessage = document.getElementById('authMessage');
+
+// Criar conta
+document.getElementById('signUpButton').addEventListener('click', async () => {
+  const email = authEmail.value.trim();
+  const password = authPassword.value;
+
+  if (!email || !password) {
+    authMessage.textContent = 'Preencha o e-mail e a senha.';
+    return;
+  }
+
+  if (password.length < 8) {
+    authMessage.textContent = 'A senha precisa ter pelo menos 8 caracteres.';
+    return;
+  }
+
+  authMessage.textContent = 'Criando sua conta...';
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: 'https://medscript.pages.dev/'
+    }
+  });
+
+  if (error) {
+    authMessage.textContent = 'Erro: ' + error.message;
+    return;
+  }
+
+  authMessage.textContent = data.session
+    ? 'Conta criada com sucesso!'
+    : 'Conta criada! Confira seu e-mail para confirmar o cadastro.';
+});
+
+// Entrar na conta
+document.getElementById('signInButton').addEventListener('click', async () => {
+  const email = authEmail.value.trim();
+  const password = authPassword.value;
+
+  if (!email || !password) {
+    authMessage.textContent = 'Preencha o e-mail e a senha.';
+    return;
+  }
+
+  authMessage.textContent = 'Verificando acesso...';
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    authMessage.textContent = 'Erro ao entrar: ' + error.message;
+    return;
+  }
+
+  authMessage.textContent = 'Bem-vindo ao MEDSCRIPT!';
+  console.log('Usuário autenticado:', data.user.email);
+});
+
