@@ -285,6 +285,9 @@ item.innerHTML = `
     <button type="button" class="analyze-document-button">
       Analisar com IA
     </button>
+    <button type="button" class="delete-document-button">
+  Excluir documento
+</button>
 
     <div class="analysis-progress">
       <div class="analysis-progress-bar"></div>
