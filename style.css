@@ -111,11 +111,14 @@ button {
   background: var(--secondary);
 }
 
+
 .main-content {
+  display: none;
   max-width: 1050px;
   margin: 0 auto;
   padding: 65px 24px 30px;
 }
+
 
 .welcome {
   margin-bottom: 35px;
