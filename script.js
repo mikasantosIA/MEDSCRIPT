@@ -368,36 +368,5 @@ progress.classList.remove('active');
 }
 
 /* Barra de carregamento da análise MEDSCRIPT */
-.analysis-progress {
-  display: none;
-  width: 100%;
-  height: 7px;
-  background: #e5eee9;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-top: 12px;
-}
-
-.analysis-progress.active {
-  display: block;
-}
-
-.analysis-progress-bar {
-  width: 35%;
-  height: 100%;
-  background: linear-gradient(90deg, #176b55, #45bd91);
-  border-radius: 20px;
-  animation: analysisLoading 1.3s ease-in-out infinite;
-}
-
-@keyframes analysisLoading {
-  0% {
-    transform: translateX(-110%);
-  }
-
-  100% {
-    transform: translateX(310%);
-  }
-}
 
 
