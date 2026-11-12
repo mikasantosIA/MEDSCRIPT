@@ -392,3 +392,53 @@ footer {
   }
 }
 
+/* MEDSCRIPT - layout de impressão */
+@media print {
+  body {
+    background: white !important;
+    color: #20343D !important;
+  }
+
+  .topbar,
+  .auth-section,
+  .welcome,
+  .upload-section,
+  .documents-section,
+  footer,
+  .analysis-progress,
+  .primary-button {
+    display: none !important;
+  }
+
+  .main-content {
+    display: block !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .result-section {
+    display: block !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 20px !important;
+  }
+
+  .result-section h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .result-section h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .result-section li,
+  .result-section p {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+}
+
