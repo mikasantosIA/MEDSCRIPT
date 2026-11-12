@@ -433,8 +433,12 @@ botaoRelatorio.addEventListener('click', () => {
   window.print();
 });
 
+
 results.appendChild(botaoRelatorio);
-    
+
+  });
+
+// Evento para excluir documento
 item.querySelector('.delete-document-button')
   .addEventListener('click', async () => {
 
@@ -449,7 +453,6 @@ item.querySelector('.delete-document-button')
     botaoExcluir.disabled = true;
     botaoExcluir.textContent = 'Excluindo...';
 
-    // Excluir o arquivo do Storage
     const { error: erroArquivo } = await supabaseClient.storage
       .from('medical-orders')
       .remove([doc.storage_path]);
@@ -461,7 +464,6 @@ item.querySelector('.delete-document-button')
       return;
     }
 
-    // Excluir o registro do histórico
     const { error: erroRegistro } = await supabaseClient
       .from('medical_documents')
       .delete()
@@ -476,11 +478,10 @@ item.querySelector('.delete-document-button')
     alert('Documento excluído com sucesso!');
   });
 
-
-  });
-    documentsList.appendChild(item);
+documentsList.appendChild(item);
   });
 }
+
 
 /* Barra de carregamento da análise MEDSCRIPT */
 
