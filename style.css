@@ -720,5 +720,69 @@ footer {
   }
 }
 
+/* MEDSCRIPT - identidade visual da tela de login */
+
+.auth-section {
+  background: linear-gradient(135deg, #edf7f3, #eaf1f5);
+  padding: 55px 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 430px;
+  padding: 38px 32px;
+  background: #ffffff;
+  border: 1px solid #dcebe5;
+  border-radius: 22px;
+  box-shadow: 0 15px 45px rgba(16, 43, 58, 0.10);
+}
+
+.auth-card h2 {
+  color: #102b3a;
+  font-size: 25px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.auth-card > p:first-of-type {
+  color: #71817b;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.auth-card label {
+  display: block;
+  color: #294b46;
+  font-weight: 700;
+  font-size: 13px;
+  margin: 16px 0 7px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #d7e4de;
+  border-radius: 10px;
+  background: #f9fcfa;
+  outline: none;
+}
+
+.auth-card input:focus {
+  border-color: #087f68;
+  box-shadow: 0 0 0 3px rgba(8, 127, 104, 0.10);
+}
+
+.auth-card .primary-button {
+  width: 100%;
+  margin-top: 25px;
+  background: #087f68;
+}
+
+.auth-card .login-button {
+  width: 100%;
+  margin-top: 12px;
+}
+
+
 
 
