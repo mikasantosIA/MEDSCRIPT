@@ -363,7 +363,7 @@ const tituloExames = document.createElement('h4');
 tituloExames.textContent = 'Exames identificados';
 results.appendChild(tituloExames);
 
-const lista = document.createElement('ul');
+const listaExames = document.createElement('ul');
 
 (leitura.exames || []).forEach((exame) => {
   const itemExame = document.createElement('li');
@@ -373,11 +373,8 @@ const lista = document.createElement('ul');
     (exame.observacao ? ' — ' + exame.observacao : '') +
     (exame.confianca ? ' | Confiança: ' + exame.confianca : '');
 
-  lista.appendChild(itemExame);
-});
-
-if (lista.children.length > 0) {
-  results.appendChild(lista);
+ if (listaExames.children.length > 0) {
+  results.appendChild(listaExames);
 } else {
   const vazio = document.createElement('p');
   vazio.textContent = 'Nenhum exame foi identificado.';
