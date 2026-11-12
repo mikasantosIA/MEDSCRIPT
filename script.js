@@ -265,16 +265,23 @@ async function loadMedicalDocuments() {
 
     const date = new Date(doc.created_at).toLocaleString('pt-BR');
 
-    item.innerHTML = `
-      <div>
-        <strong></strong>
-        <p>Enviado em: ${date}</p>
-        <small>Status: ${doc.status}</small>
-      </div>
-      <button type="button" class="open-document-button">
-        Abrir documento
-      </button>
-    `;
+   item.innerHTML = `
+  <div>
+    <strong></strong>
+    <p>Enviado em: ${date}</p>
+    <small>Status: ${doc.status}</small>
+  </div>
+
+  <div class="document-actions">
+    <button type="button" class="open-document-button">
+      Abrir documento
+    </button>
+
+    <button type="button" class="analyze-document-button">
+      Analisar com IA
+    </button>
+  </div>
+`;
 
     item.querySelector('strong').textContent = doc.original_filename;
 
