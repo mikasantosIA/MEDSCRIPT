@@ -34,13 +34,7 @@ button {
 }
 
 .topbar {
-  background: linear-gradient(
-    90deg,
-    #ffffff 0%,
-    #ffffff 35%,
-    #dce8e9 55%,
-    #102b3a 100%
-  );
+  background: #102b3a;
   border-bottom: 3px solid #087f68;
   box-shadow: 0 4px 18px rgba(16, 43, 58, 0.12);
   display: flex;
@@ -49,7 +43,6 @@ button {
   min-height: 100px;
   padding: 5px 35px;
 }
-
 .brand {
   display: flex;
   align-items: center;
@@ -630,18 +623,10 @@ footer {
 ================================= */
 
 .topbar {
-  background: linear-gradient(
-    90deg,
-    #ffffff 0%,
-    #ffffff 38%,
-    #dce8e9 58%,
-    #102b3a 100%
-  ) !important;
-
+  background: #102b3a !important;
   border-bottom: 3px solid #087f68;
   box-shadow: 0 4px 18px rgba(16, 43, 58, 0.12);
 }
-
 .brand {
   display: flex;
   align-items: center;
