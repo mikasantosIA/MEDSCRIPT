@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect x="5" y="5" width="48" height="48" rx="13" fill="#087f68"/>
-  <path d="M25 13h8v12h12v8H33v12h-8V33H13v-8h12z" fill="#ffffff"/>
-  <rect x="38" y="40" width="24" height="19" rx="6"
+  <rect x="3" y="3" width="58" height="58" rx="14" fill="#087f68"/>
+  <path d="M25 12h9v12h12v9H34v12h-9V33H13v-9h12z" fill="#ffffff"/>
+  <rect x="37" y="39" width="25" height="20" rx="7"
         fill="#102b3a" stroke="#55dfb4" stroke-width="2"/>
-  <text x="50" y="53" font-family="Arial,sans-serif"
+  <text x="49.5" y="53" font-family="Arial,sans-serif"
         font-size="10" font-weight="900"
         text-anchor="middle" fill="#55dfb4">IA</text>
 </svg>
