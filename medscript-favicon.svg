@@ -1,7 +1,9 @@
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect x="2" y="2" width="60" height="60" rx="14" fill="#087f68"/>
-  <path d="M14 27h9V18h9v9h9v9h-9v9h-9v-9h-9z" fill="#65E0C1"/>
-  <text x="49" y="39" font-family="Arial,sans-serif"
-        font-size="15" font-weight="800"
-        text-anchor="middle" fill="#ffffff">IA</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect x="5" y="5" width="48" height="48" rx="13" fill="#087f68"/>
+  <path d="M25 13h8v12h12v8H33v12h-8V33H13v-8h12z" fill="#ffffff"/>
+  <rect x="38" y="40" width="24" height="19" rx="6"
+        fill="#102b3a" stroke="#55dfb4" stroke-width="2"/>
+  <text x="50" y="53" font-family="Arial,sans-serif"
+        font-size="10" font-weight="900"
+        text-anchor="middle" fill="#55dfb4">IA</text>
 </svg>
