@@ -485,3 +485,126 @@ footer {
   }
 }
 
+/* MEDSCRIPT - cartões de documentos */
+.document-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 22px;
+  margin-bottom: 15px;
+  background: #ffffff;
+  border: 1px solid #e3ebe7;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(20, 60, 45, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.document-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(20, 60, 45, 0.09);
+}
+
+.document-card-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 0;
+}
+
+.document-file-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  background: #eaf5ef;
+  border-radius: 13px;
+  font-size: 25px;
+}
+
+.document-info {
+  min-width: 0;
+}
+
+.document-filename {
+  display: block;
+  color: #20343d;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.document-info p {
+  margin: 6px 0;
+  color: #71817b;
+  font-size: 13px;
+}
+
+.document-status {
+  display: inline-block;
+  padding: 5px 10px;
+  background: #fff5df;
+  color: #936719;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.document-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 220px;
+}
+
+.document-actions button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.open-document-button {
+  background: #edf2f0;
+  color: #176b55;
+}
+
+.analyze-document-button {
+  background: #176b55;
+  color: white;
+}
+
+.document-actions button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.document-actions .analysis-progress {
+  flex-basis: 100%;
+}
+
+/* Cartões em telas pequenas */
+@media (max-width: 650px) {
+  .document-card {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 17px;
+  }
+
+  .document-actions {
+    min-width: 0;
+    justify-content: stretch;
+  }
+
+  .document-actions button {
+    flex: 1;
+    font-size: 12px;
+    padding: 11px 8px;
+  }
+}
+
+
