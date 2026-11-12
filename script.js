@@ -434,6 +434,48 @@ botaoRelatorio.addEventListener('click', () => {
 });
 
 results.appendChild(botaoRelatorio);
+    
+item.querySelector('.delete-document-button')
+  .addEventListener('click', async () => {
+
+    const confirmar = confirm(
+      'Tem certeza que deseja excluir este documento? Essa ação não poderá ser desfeita.'
+    );
+
+    if (!confirmar) return;
+
+    const botaoExcluir = item.querySelector('.delete-document-button');
+
+    botaoExcluir.disabled = true;
+    botaoExcluir.textContent = 'Excluindo...';
+
+    // Excluir o arquivo do Storage
+    const { error: erroArquivo } = await supabaseClient.storage
+      .from('medical-orders')
+      .remove([doc.storage_path]);
+
+    if (erroArquivo) {
+      alert('Erro ao excluir arquivo: ' + erroArquivo.message);
+      botaoExcluir.disabled = false;
+      botaoExcluir.textContent = 'Excluir documento';
+      return;
+    }
+
+    // Excluir o registro do histórico
+    const { error: erroRegistro } = await supabaseClient
+      .from('medical_documents')
+      .delete()
+      .eq('id', doc.id);
+
+    if (erroRegistro) {
+      alert('Arquivo excluído, mas houve erro ao atualizar o histórico: ' + erroRegistro.message);
+      return;
+    }
+
+    item.remove();
+    alert('Documento excluído com sucesso!');
+  });
+
 
   });
     documentsList.appendChild(item);
