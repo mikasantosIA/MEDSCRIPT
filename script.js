@@ -23,24 +23,20 @@ const authPassword = document.getElementById('authPassword');
 const authMessage = document.getElementById('authMessage');
 
 // Atualizar tela conforme o login
+
 function updateAuthUI(user) {
   currentUser = user;
 
   const authSection = document.querySelector('.auth-section');
-  const uploadSection = document.querySelector('.upload-section');
-  const resultSection = document.querySelector('.result-section');
+  const mainContent = document.querySelector('.main-content');
   const loginButton = document.getElementById('loginButton');
 
   if (authSection) {
     authSection.style.display = user ? 'none' : 'flex';
   }
 
-  if (uploadSection) {
-    uploadSection.style.display = user ? 'block' : 'none';
-  }
-
-  if (resultSection) {
-    resultSection.style.display = user ? 'block' : 'none';
+  if (mainContent) {
+    mainContent.style.display = user ? 'block' : 'none';
   }
 
   if (loginButton) {
