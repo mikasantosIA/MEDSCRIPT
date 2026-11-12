@@ -261,11 +261,20 @@ async function loadMedicalDocuments() {
 
     const date = new Date(doc.created_at).toLocaleString('pt-BR');
 
-   item.innerHTML = `
-  <div>
-    <strong></strong>
-    <p>Enviado em: ${date}</p>
-    <small>Status: ${doc.status}</small>
+
+item.className = 'document-card';
+
+item.innerHTML = `
+  <div class="document-card-header">
+    <div class="document-file-icon">📄</div>
+
+    <div class="document-info">
+      <strong class="document-filename"></strong>
+      <p>Enviado em: ${date}</p>
+      <span class="document-status">
+        ${doc.status === 'pending' ? 'Aguardando análise' : doc.status}
+      </span>
+    </div>
   </div>
 
   <div class="document-actions">
@@ -274,16 +283,17 @@ async function loadMedicalDocuments() {
     </button>
 
     <button type="button" class="analyze-document-button">
-  Analisar com IA
-</button>
+      Analisar com IA
+    </button>
 
-<div class="analysis-progress">
-  <div class="analysis-progress-bar"></div>
-</div>
-</div>
+    <div class="analysis-progress">
+      <div class="analysis-progress-bar"></div>
+    </div>
+  </div>
 `;
 
-    item.querySelector('strong').textContent = doc.original_filename;
+item.querySelector('.document-filename').textContent =
+  doc.original_filename;
 
     item.querySelector('button').addEventListener('click', async () => {
       const { data: fileData, error: fileError } =
