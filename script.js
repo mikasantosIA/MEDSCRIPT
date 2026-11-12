@@ -278,9 +278,13 @@ async function loadMedicalDocuments() {
     </button>
 
     <button type="button" class="analyze-document-button">
-      Analisar com IA
-    </button>
-  </div>
+  Analisar com IA
+</button>
+
+<div class="analysis-progress">
+  <div class="analysis-progress-bar"></div>
+</div>
+</div>
 `;
 
     item.querySelector('strong').textContent = doc.original_filename;
@@ -304,7 +308,10 @@ item.querySelector('.analyze-document-button')
     const button = event.currentTarget;
 
     button.disabled = true;
-    button.textContent = 'Analisando...';
+button.textContent = 'Analisando...';
+
+const progress = item.querySelector('.analysis-progress');
+progress.classList.add('active');
 
     results.textContent = 'A IA está lendo seu pedido médico...';
 
@@ -318,7 +325,9 @@ item.querySelector('.analyze-document-button')
     );
 
     button.disabled = false;
-    button.textContent = 'Analisar com IA';
+button.textContent = 'Analisar com IA';
+
+progress.classList.remove('active');
 
     if (error || !data || !data.sucesso) {
       results.textContent =
@@ -361,4 +370,38 @@ item.querySelector('.analyze-document-button')
     documentsList.appendChild(item);
   });
 }
+
+/* Barra de carregamento da análise MEDSCRIPT */
+.analysis-progress {
+  display: none;
+  width: 100%;
+  height: 7px;
+  background: #e5eee9;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.analysis-progress.active {
+  display: block;
+}
+
+.analysis-progress-bar {
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(90deg, #176b55, #45bd91);
+  border-radius: 20px;
+  animation: analysisLoading 1.3s ease-in-out infinite;
+}
+
+@keyframes analysisLoading {
+  0% {
+    transform: translateX(-110%);
+  }
+
+  100% {
+    transform: translateX(310%);
+  }
+}
+
 
