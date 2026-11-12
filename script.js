@@ -298,7 +298,66 @@ async function loadMedicalDocuments() {
 
       window.open(fileData.signedUrl, '_blank');
     });
+item.querySelector('.analyze-document-button')
+  .addEventListener('click', async (event) => {
 
+    const button = event.currentTarget;
+
+    button.disabled = true;
+    button.textContent = 'Analisando...';
+
+    results.textContent = 'A IA está lendo seu pedido médico...';
+
+    const { data, error } = await supabaseClient.functions.invoke(
+      'analisar-pedido',
+      {
+        body: {
+          documentId: doc.id
+        }
+      }
+    );
+
+    button.disabled = false;
+    button.textContent = 'Analisar com IA';
+
+    if (error || !data || !data.sucesso) {
+      results.textContent =
+        'Erro na análise: ' + (data?.error || error?.message || 'Erro desconhecido.');
+      return;
+    }
+
+    const leitura = data.resultado;
+
+    results.replaceChildren();
+
+    const titulo = document.createElement('h3');
+    titulo.textContent = 'Exames identificados';
+    results.appendChild(titulo);
+
+    if (leitura.paciente) {
+      const paciente = document.createElement('p');
+      paciente.textContent = 'Paciente: ' + leitura.paciente;
+      results.appendChild(paciente);
+    }
+
+    const lista = document.createElement('ul');
+
+    (leitura.exames || []).forEach((exame) => {
+      const itemExame = document.createElement('li');
+      itemExame.textContent =
+        exame.nome + (exame.observacao ? ' — ' + exame.observacao : '');
+
+      lista.appendChild(itemExame);
+    });
+
+    results.appendChild(lista);
+
+    if (leitura.observacoes) {
+      const observacoes = document.createElement('p');
+      observacoes.textContent = leitura.observacoes;
+      results.appendChild(observacoes);
+    }
+  });
     documentsList.appendChild(item);
   });
 }
