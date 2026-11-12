@@ -409,6 +409,19 @@ if (leitura.observacoes) {
   results.appendChild(observacoes);
 }
 
+// Botão para imprimir ou salvar relatório em PDF
+const botaoRelatorio = document.createElement('button');
+
+botaoRelatorio.type = 'button';
+botaoRelatorio.textContent = 'Imprimir / Salvar relatório em PDF';
+botaoRelatorio.className = 'primary-button';
+
+botaoRelatorio.addEventListener('click', () => {
+  window.print();
+});
+
+results.appendChild(botaoRelatorio);
+
   });
     documentsList.appendChild(item);
   });
