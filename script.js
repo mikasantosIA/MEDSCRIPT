@@ -332,6 +332,7 @@ progress.classList.remove('active');
     }
 
     
+
 const leitura = data.resultado;
 
 results.replaceChildren();
@@ -358,7 +359,7 @@ if (leitura.medico) {
 
 results.appendChild(dados);
 
-// Lista de exames
+// Exames identificados
 const tituloExames = document.createElement('h4');
 tituloExames.textContent = 'Exames identificados';
 results.appendChild(tituloExames);
@@ -373,7 +374,10 @@ const listaExames = document.createElement('ul');
     (exame.observacao ? ' — ' + exame.observacao : '') +
     (exame.confianca ? ' | Confiança: ' + exame.confianca : '');
 
- if (listaExames.children.length > 0) {
+  listaExames.appendChild(itemExame);
+});
+
+if (listaExames.children.length > 0) {
   results.appendChild(listaExames);
 } else {
   const vazio = document.createElement('p');
@@ -405,24 +409,6 @@ if (leitura.observacoes) {
   results.appendChild(observacoes);
 }
 
-
-    const lista = document.createElement('ul');
-
-    (leitura.exames || []).forEach((exame) => {
-      const itemExame = document.createElement('li');
-      itemExame.textContent =
-        exame.nome + (exame.observacao ? ' — ' + exame.observacao : '');
-
-      lista.appendChild(itemExame);
-    });
-
-    results.appendChild(lista);
-
-    if (leitura.observacoes) {
-      const observacoes = document.createElement('p');
-      observacoes.textContent = leitura.observacoes;
-      results.appendChild(observacoes);
-    }
   });
     documentsList.appendChild(item);
   });
