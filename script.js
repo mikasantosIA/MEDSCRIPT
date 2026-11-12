@@ -331,19 +331,83 @@ progress.classList.remove('active');
       return;
     }
 
-    const leitura = data.resultado;
+    
+const leitura = data.resultado;
 
-    results.replaceChildren();
+results.replaceChildren();
 
-    const titulo = document.createElement('h3');
-    titulo.textContent = 'Exames identificados';
-    results.appendChild(titulo);
+const titulo = document.createElement('h3');
+titulo.textContent = 'Resultado da análise';
+results.appendChild(titulo);
 
-    if (leitura.paciente) {
-      const paciente = document.createElement('p');
-      paciente.textContent = 'Paciente: ' + leitura.paciente;
-      results.appendChild(paciente);
-    }
+// Dados do paciente e médico
+const dados = document.createElement('div');
+dados.className = 'analysis-details';
+
+if (leitura.paciente) {
+  const paciente = document.createElement('p');
+  paciente.textContent = 'Paciente: ' + leitura.paciente;
+  dados.appendChild(paciente);
+}
+
+if (leitura.medico) {
+  const medico = document.createElement('p');
+  medico.textContent = 'Médico: ' + leitura.medico;
+  dados.appendChild(medico);
+}
+
+results.appendChild(dados);
+
+// Lista de exames
+const tituloExames = document.createElement('h4');
+tituloExames.textContent = 'Exames identificados';
+results.appendChild(tituloExames);
+
+const lista = document.createElement('ul');
+
+(leitura.exames || []).forEach((exame) => {
+  const itemExame = document.createElement('li');
+
+  itemExame.textContent =
+    exame.nome +
+    (exame.observacao ? ' — ' + exame.observacao : '') +
+    (exame.confianca ? ' | Confiança: ' + exame.confianca : '');
+
+  lista.appendChild(itemExame);
+});
+
+if (lista.children.length > 0) {
+  results.appendChild(lista);
+} else {
+  const vazio = document.createElement('p');
+  vazio.textContent = 'Nenhum exame foi identificado.';
+  results.appendChild(vazio);
+}
+
+// Trechos ilegíveis
+if (leitura.trechos_ilegiveis && leitura.trechos_ilegiveis.length > 0) {
+  const tituloIlegivel = document.createElement('h4');
+  tituloIlegivel.textContent = 'Trechos que precisam de conferência';
+  results.appendChild(tituloIlegivel);
+
+  const listaIlegivel = document.createElement('ul');
+
+  leitura.trechos_ilegiveis.forEach((trecho) => {
+    const item = document.createElement('li');
+    item.textContent = trecho;
+    listaIlegivel.appendChild(item);
+  });
+
+  results.appendChild(listaIlegivel);
+}
+
+// Observações
+if (leitura.observacoes) {
+  const observacoes = document.createElement('p');
+  observacoes.textContent = 'Observações: ' + leitura.observacoes;
+  results.appendChild(observacoes);
+}
+
 
     const lista = document.createElement('ul');
 
